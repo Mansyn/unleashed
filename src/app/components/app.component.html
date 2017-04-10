@@ -1,0 +1,30 @@
+<md-toolbar color="primary">
+  <a aria-label="Unleashed" md-button routerLink="home" class="mat-button">
+    <span class="mat-button-wrapper">
+    <md-icon class="m-r-5">build</md-icon>
+    <span>UNLEASHED</span>
+    </span>
+    <div class="mat-button-ripple mat-ripple" md-ripple></div>
+    <div class="mat-button-focus-overlay"></div>
+  </a>
+  <button md-button *ngFor="let link of navLinks" routerLink="{{link.section}}">
+        {{link.section | uppercase}}
+    </button>
+</md-toolbar>
+<section class="flex-container">
+  <md-sidenav-container class="sidenav-container" (window:resize)="onResize($event)">
+    <md-sidenav #sidenav class="sidenav" mode="side" [opened]="isHidden()">
+      <nav *ngFor="let link of navLinks">
+        <h3>{{link.section}}</h3>
+        <ul>
+          <li *ngFor="let page of link.pages">
+            <a routerLink="/{{link.section}}/{{page.link}}" class="p-l-15 p-r-15">{{page.link | titleCase}}</a>
+          </li>
+        </ul>
+      </nav>
+    </md-sidenav>
+    <div class="flex layout-column layout-align-start-start">
+      <h1 class="md-display-1 m-40" [hidden]="!isHidden()">{{currentPath()}}</h1>
+      <router-outlet></router-outlet>
+    </div>
+  </md-sidenav-container>
