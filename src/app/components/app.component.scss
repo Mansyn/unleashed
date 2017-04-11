@@ -8,6 +8,28 @@
     display: flex
   }
 
+  .docs-navbar {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    min-height: 37px;
+    padding: 8px 16px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .docs-navbar>.mat-button:last-child {
+    margin-left: auto
+  }
+
+  .docs-unleashed-logo {
+    height: 26px;
+    margin: 0 4px 3px 0;
+    vertical-align: middle
+  }
+
   .sidenav-container {
     position: relative;
     -webkit-transform: translateZ(0);

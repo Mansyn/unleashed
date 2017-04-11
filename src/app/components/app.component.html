@@ -1,7 +1,7 @@
-<md-toolbar color="primary">
+<nav class="docs-navbar mat-elevation-z6">
   <a aria-label="Unleashed" md-button routerLink="home" class="mat-button">
     <span class="mat-button-wrapper">
-    <md-icon class="m-r-5">build</md-icon>
+    <img src="/assets/UnleashedLogoSmall.png" class="docs-unleashed-logo" />
     <span>UNLEASHED</span>
     </span>
     <div class="mat-button-ripple mat-ripple" md-ripple></div>
@@ -10,7 +10,7 @@
   <button md-button *ngFor="let link of navLinks" routerLink="{{link.section}}">
         {{link.section | uppercase}}
     </button>
-</md-toolbar>
+</nav>
 <section class="flex-container">
   <md-sidenav-container class="sidenav-container" (window:resize)="onResize($event)">
     <md-sidenav #sidenav class="sidenav" mode="side" [opened]="isHidden()">
@@ -24,7 +24,11 @@
       </nav>
     </md-sidenav>
     <div class="flex layout-column layout-align-start-start">
-      <h1 class="md-display-1 m-40" [hidden]="!isHidden()">{{currentPath()}}</h1>
+      <div class="w-100" [hidden]="!isHidden()">
+        <md-toolbar color="primary">
+          <span>{{currentPath()}}</span>
+        </md-toolbar>
+      </div>
       <router-outlet></router-outlet>
     </div>
   </md-sidenav-container>
