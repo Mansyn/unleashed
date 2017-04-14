@@ -13,7 +13,7 @@
 </nav>
 <section class="flex-container">
   <md-sidenav-container class="sidenav-container" (window:resize)="onResize($event)">
-    <md-sidenav #sidenav class="sidenav" mode="side" [opened]="isHidden()">
+    <md-sidenav #sidenav class="sidenav" mode="side" [opened]="false">
       <nav *ngFor="let link of navLinks">
         <h3>{{link.section}}</h3>
         <ul>
@@ -23,15 +23,25 @@
         </ul>
       </nav>
     </md-sidenav>
-    <div class="flex layout-column layout-align-start-start">
-      <div class="w-100" [hidden]="!isHidden()">
+    <div class="flex layout-column layout-align-start-start body-container">
+      <div class="w-100" [hidden]="isHidden()">
         <md-toolbar color="primary">
-          <div *ngFor="let part of currentPath(); let last = last">
+          <div class="m-r-10 hide show-gt-xs">
+            <button md-mini-fab color="primary" (click)="sidenav.toggle()">
+              <md-icon>menu</md-icon>
+            </button>
+          </div>
+          <div *ngFor="let part of currentPath(); let last=last">
             {{part | uppercase}}
-            <md-icon *ngIf="!last">chevron_right</md-icon>
+            <md-icon *ngIf="!last" style="vertical-align: text-top;">chevron_right</md-icon>
           </div>
         </md-toolbar>
       </div>
       <router-outlet></router-outlet>
+      <footer>
+        <div class="layout-row layout-align-end-center m-h-20">
+          <h5>Powerd by Unleashed Development 2017</h5>
+        </div>
+      </footer>
     </div>
   </md-sidenav-container>

@@ -5,16 +5,10 @@
     flex: 1 1 auto;
     display: -webkit-box;
     display: -ms-flexbox;
-    display: flex
+    display: flex;
   }
 
   .docs-navbar {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    min-height: 37px;
     padding: 8px 16px;
     position: relative;
     z-index: 10;
@@ -135,6 +129,20 @@
     color: mat-color($primary);
   }
 
-  md-toolbar md-icon {
-    vertical-align: text-top;
+  .body-container {
+    min-height: 100%;
+  }
+
+  .body-container>*:nth-child(3) {
+    width: 100%;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex
+  }
+
+  footer {
+    width: 100%;
   }

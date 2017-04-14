@@ -9,24 +9,39 @@ import { Router, NavigationStart } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
-  constructor(private router: Router) { };
+  innerWidth: any;
+  constructor(private router: Router) {
+    this.innerWidth = (window.screen.width) + "px";
+  };
 
   navLinks = [{
     'section': 'design',
     'pages': [{
-      'link': 'services'
+      'link': 'services',
+      'headline': 'Our design services',
+      'summary': 'Find out more about what Unleashed Design can do for you. Let our experts help grow your brand.'
     }]
   }, {
     'section': 'development',
     'pages': [{
-      'link': 'services'
+      'link': 'services',
+      'headline': 'Our development services',
+      'summary': 'Unleashed Development can bring you modern solutions for any technical requirements your business has.'
+    }, {
+      'link': 'portfolio',
+      'headline': 'Our development portfolio',
+      'summary': 'See some of our past work for reference and possibly inspiration.'
     }]
   }, {
     'section': 'contact',
     'pages': [{
-      'link': 'email'
+      'link': 'email',
+      'headline': 'Contact By Phone',
+      'summary': 'Reach out to us online'
     }, {
-      'link': 'facebook'
+      'link': 'facebook',
+      'headline': 'On Facebook',
+      'summary': 'Find us on Facebook and keep up with our latest work'
     }]
   }];
 
@@ -36,7 +51,7 @@ export class AppComponent {
     let list = ['/', '/home'],
       route = this.router.url;
 
-    return (list.indexOf(route) === -1);
+    return (list.indexOf(route) > -1);
   }
 
   public currentPath() {
@@ -47,18 +62,8 @@ export class AppComponent {
   }
 
   onResize(event) {
-    if (this.router.url === '/home') {
+    if ((this.router.url === '/home') || (event.target.innerWidth < 600)) {
       this.sidenav.close();
-    }
-    else if (event.target.innerWidth < 600) {
-      if (this.sidenav._isOpened) {
-        this.sidenav.close();
-      }
-    }
-    else {
-      if (this.sidenav._isClosed) {
-        this.sidenav.open();
-      }
     }
   }
 }

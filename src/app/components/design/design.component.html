@@ -1,17 +1,19 @@
-<div class="layout-row layout-align-start-start layout-wrap p-20">
-  <md-card class="flex-50 m-20">
-    <md-card-header>
-      <md-card-title>Services</md-card-title>
-      <md-card-subtitle>design services</md-card-subtitle>
-    </md-card-header>
-    <img md-card-image src="/assets/design.png">
-    <md-card-content>
-      <p>
-        This is an overview of our design services
-      </p>
-    </md-card-content>
-    <md-card-actions>
-      <button md-button routerLink="/design/services">MORE</button>
-    </md-card-actions>
-  </md-card>
+<div class="flex layout-row layout-align-start-start layout-wrap p-20">
+  <div class="flex-100 flex-gt-xs-50 flex-gt-sm-33 p-t-20" *ngFor="let page of section.pages">
+    <md-card class="m-h-20">
+      <md-card-header>
+        <md-card-title>{{page.link | titleCase}}</md-card-title>
+        <md-card-subtitle>{{page.headline}}</md-card-subtitle>
+      </md-card-header>
+      <img md-card-image src="/assets/{{section.section}}-{{page.link}}.png">
+      <md-card-content>
+        <p>
+          {{page.summary}}
+        </p>
+      </md-card-content>
+      <md-card-actions>
+        <button md-button routerLink="/{{section.section}}/{{page.link}}">MORE</button>
+      </md-card-actions>
+    </md-card>
+  </div>
 </div>
