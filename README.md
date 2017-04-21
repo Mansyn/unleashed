@@ -1,28 +1,44 @@
-# Unleashed
+# SHOP
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
+### Setup
 
-## Development server
+##### Prerequisites
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Install [polymer-cli](https://github.com/Polymer/polymer-cli):
+(Need at least npm v0.3.0)
 
-## Code scaffolding
+    npm install -g polymer-cli
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
 
-## Build
+##### Setup
+    # Using CLI
+    mkdir shop
+    cd shop
+    polymer init shop
+    
+    # Or cloning direct from GitHub
+    git clone https://github.com/Polymer/shop.git
+    cd shop
+    bower install
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+### Start the development server
 
-## Running unit tests
+    polymer serve
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Run web-component-tester tests
 
-## Running end-to-end tests
+    polymer test
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+### Build
 
-## Further help
+    polymer build
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Test the build
+
+This command serves the minified version of the app in an unbundled state, as it would be served by a push-compatible server:
+
+    polymer serve build/unbundled
+    
+This command serves the minified version of the app generated using fragment bundling:
+
+    polymer serve build/bundled
