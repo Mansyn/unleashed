@@ -1,0 +1,57 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="ud-common-styles.html">
+
+<dom-module id="ud-apps">
+
+    <template>
+
+        <style include="ud-common-styles">
+             :host {
+                display: block;
+            }
+
+            #content {
+                @apply --layout-horizontal;
+                @apply --layout-center-justified;
+            }
+
+            h1 {
+                font-size: 24px;
+                font-weight: 500;
+                line-height: 28px;
+                margin: 0;
+            }
+
+            @media (max-width: 767px) {
+
+                #content {
+                    @apply --layout-vertical;
+                    @apply --layout-center;
+                }
+
+                h1 {
+                    font-size: 20px;
+                    line-height: 24px;
+                }
+            }
+        </style>
+
+        <div id="content">
+            <h1>App View</h1>
+        </div>
+
+    </template>
+
+    <script>
+        class UDApps extends Polymer.Element {
+            static get is() {
+                return 'ud-apps';
+            }
+        }
+
+        customElements.define(UDApps.is, UDApps);
+    </script>
+
+</dom-module>

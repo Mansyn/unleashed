@@ -1,19 +1,19 @@
 {
-  "name": "Unleashed Development",
-  "short_name": "Unleashed",
+  "name": "SHOP",
+  "short_name": "SHOP",
   "icons": [{
-    "src": "images/UDIcon-128.png",
-    "sizes": "128x128",
-    "type": "image/png"
-  }, {
-    "src": "images/UDIcon-192.png",
-    "sizes": "192x192",
-    "type": "image/png"
-  }, {
-    "src": "images/UDIcon-384.png",
-    "sizes": "384x384",
-    "type": "image/png"
-  }],
+      "src": "images/shop-icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }, {
+      "src": "images/shop-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },{
+      "src": "images/shop-icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    }],
   "start_url": "/",
   "background_color": "#fff",
   "display": "standalone",

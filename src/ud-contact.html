@@ -1,0 +1,57 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="ud-common-styles.html">
+
+<dom-module id="ud-contact">
+
+    <template>
+
+        <style include="ud-common-styles">
+             :host {
+                display: block;
+            }
+
+            #content {
+                @apply --layout-horizontal;
+                @apply --layout-center-justified;
+            }
+
+            h1 {
+                font-size: 24px;
+                font-weight: 500;
+                line-height: 28px;
+                margin: 0;
+            }
+
+            @media (max-width: 767px) {
+
+                #content {
+                    @apply --layout-vertical;
+                    @apply --layout-center;
+                }
+
+                h1 {
+                    font-size: 20px;
+                    line-height: 24px;
+                }
+            }
+        </style>
+
+        <div id="content">
+            <h1>Contact View</h1>
+        </div>
+
+    </template>
+
+    <script>
+        class UDContact extends Polymer.Element {
+            static get is() {
+                return 'ud-contact';
+            }
+        }
+
+        customElements.define(UDContact.is, UDContact);
+    </script>
+
+</dom-module>

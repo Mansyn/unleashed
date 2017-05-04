@@ -1,13 +1,4 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/effects/waterfall.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
@@ -44,7 +35,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       app-header {
-        @apply(--layout-fixed-top);
+        @apply --layout-fixed-top;
         z-index: 1;
         background-color: rgba(255, 255, 255, 0.95);
         --app-header-shadow: {
@@ -61,9 +52,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .logo {
         text-align: center;
+        margin-right: 40px;
       }
 
       .logo a {
+        font-family: 'Syncopate', 'Roboto', 'Noto', sans-serif;
         font-size: 16px;
         font-weight: 600;
         letter-spacing: 0.3em;
@@ -74,21 +67,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         pointer-events: auto;
       }
 
-      .logo a img {
-        vertical-align: middle;
-      }
-
       .left-bar-item {
         width: 40px;
       }
 
       .menu-btn {
         display: none;
-      }
-
-      .cart-btn-container {
-        position: relative;
-        width: 40px;
       }
 
       .announcer {
@@ -148,8 +132,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-size: 12px;
         font-weight: 500;
         pointer-events: none;
-        @apply(--layout-vertical);
-        @apply(--layout-center-center);
+        @apply --layout-vertical;
+        @apply --layout-center-center;
       }
 
       .drawer-list {
@@ -169,7 +153,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-weight: bold;
       }
 
-      ud-cart-modal {
+      shop-cart-modal {
         z-index: 2;
       }
 
@@ -200,16 +184,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       footer>a:hover {
         text-decoration: underline;
       }
-
-      .demo-label {
-        box-sizing: border-box;
-        width: 120px;
-        padding: 6px;
-        margin: 8px auto 0;
-        background-color: var(--app-primary-color);
-        color: white;
-        text-transform: uppercase;
-      }
       /* small screen */
 
       @media (max-width: 767px) {
@@ -227,7 +201,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-    <ud-analytics key="UA-39334307-16"></ud-analytics>
+    <ud-analytics key="UA-883236750-2"></ud-analytics>
     <!--
       app-location and app-route elements provide the state of the URL for the app.
     -->
@@ -242,70 +216,74 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <ud-category-data categories="{{categories}}"></ud-category-data>
 
     <!--
-      ud-cart-data maintains the state of the user's shopping cart (in localstorage) and
+      shop-cart-data maintains the state of the user's shopping cart (in localstorage) and
       calculates the total amount.
     -->
-    <ud-cart-data id="cart" cart="{{cart}}" num-items="{{numItems}}" total="{{total}}"></ud-cart-data>
+    <shop-cart-data id="cart" cart="{{cart}}" num-items="{{numItems}}" total="{{total}}"></shop-cart-data>
 
     <app-header role="navigation" id="header" effects="waterfall" condenses reveals>
       <app-toolbar>
         <div class="left-bar-item">
           <paper-icon-button class="menu-btn" icon="menu" on-click="_toggleDrawer" aria-label="Categories">
           </paper-icon-button>
-          <a class="back-btn" href="/list/[[categoryName]]" tabindex="-1">
+          <a class="back-btn" href="/[[categoryName]]" tabindex="-1">
             <paper-icon-button icon="arrow-back" aria-label="Go back"></paper-icon-button>
           </a>
         </div>
-        <div class="logo" main-title>
-          <a href="/" aria-label="UNLEASHED Home">
-            <img id="img" alt="Unleashed Development" style="opacity: 1; transition: opacity 0.5s;" src="/images/UNJN55.png">
-          </a>
-        </div>
+        <div class="logo" main-title><a href="/" aria-label="UD Home">Unleashed | Development</a></div>
       </app-toolbar>
 
       <!-- Lazy-create the tabs for larger screen sizes. -->
       <div id="tabContainer" sticky$="[[_shouldShowTabs]]" hidden$="[[!_shouldShowTabs]]">
-        <template is="dom-if" if="[[_shouldRenderTabs]]">
-          <ud-tabs selected="[[categoryName]]" attr-for-selected="name">
-            <template is="dom-repeat" items="[[categories]]" as="category" initial-count="4">
-              <ud-tab name="[[category.name]]">
-                <a href="/list/[[category.name]]">[[category.title]]</a>
-              </ud-tab>
-            </template>
-          </ud-tabs>
-        </template>
+        <dom-if if="[[_shouldRenderTabs]]">
+          <template>
+            <ud-tabs selected="[[categoryName]]" attr-for-selected="name">
+              <dom-repeat items="[[categories]]" as="category" initial-count="4">
+                <template>
+                  <ud-tab name="[[category.name]]">
+                    <a href="/[[category.name]]">[[category.title]]</a>
+                  </ud-tab>
+                </template>
+              </dom-repeat>
+            </ud-tabs>
+          </template>
+        </dom-if>
       </div>
     </app-header>
 
     <!-- Lazy-create the drawer for small screen sizes. -->
-    <template is="dom-if" if="[[_shouldRenderDrawer]]">
-      <!-- Two-way bind `drawerOpened` since app-drawer can update `opened` itself. -->
-      <app-drawer opened="{{drawerOpened}}" swipe-open tabindex="0">
-        <iron-selector role="navigation" class="drawer-list" selected="[[categoryName]]" attr-for-selected="name">
-          <template is="dom-repeat" items="[[categories]]" as="category" initial-count="4">
-            <a name="[[category.name]]" href="/list/[[category.name]]">[[category.title]]</a>
-          </template>
-        </iron-selector>
-      </app-drawer>
-    </template>
+    <dom-if if="[[_shouldRenderDrawer]]">
+      <template>
+        <!-- Two-way bind `drawerOpened` since app-drawer can update `opened` itself. -->
+        <app-drawer opened="{{drawerOpened}}" swipe-open tabindex="0">
+          <iron-selector role="navigation" class="drawer-list" selected="[[categoryName]]" attr-for-selected="name">
+            <dom-repeat items="[[categories]]" as="category" initial-count="4">
+              <template>
+                <a name="[[category.name]]" href="/[[category.name]]">[[category.title]]</a>
+              </template>
+            </dom-repeat>
+          </iron-selector>
+        </app-drawer>
+      </template>
+    </dom-if>
 
     <iron-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible" fallback-selection="404">
       <!-- home view -->
       <ud-home name="home" categories="[[categories]]"></ud-home>
-      <!-- list view of items in a category -->
-      <ud-list name="list" route="[[subroute]]" offline="[[offline]]"></ud-list>
-      <!-- detail view of one item -->
-      <ud-detail name="detail" route="[[subroute]]" offline="[[offline]]"></ud-detail>
-      <!-- cart view -->
-      <ud-cart name="cart" cart="[[cart]]" total="[[total]]"></ud-cart>
-      <!-- checkout view -->
-      <ud-checkout name="checkout" cart="[[cart]]" total="[[total]]" route="{{subroute}}"></ud-checkout>
+      <!-- app view -->
+      <ud-apps name="apps"></ud-apps>
+      <!-- contact view -->
+      <ud-contact name="contact"></ud-contact>
+      <!-- marketing view -->
+      <ud-marketing name="marketing"></ud-marketing>
+      <!-- web view -->
+      <ud-web name="web"></ud-web>
 
       <ud-404-warning name="404"></ud-404-warning>
     </iron-pages>
 
     <footer>
-      <a href="#">Made by Unleashed Development</a>
+      <a href="/">UNLEASHED</a>
     </footer>
 
     <!-- a11y announcer -->
@@ -317,65 +295,70 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // performance logging
     window.performance && performance.mark && performance.mark('ud-app - before register');
 
-    Polymer({
+    class UDApp extends Polymer.Element {
 
-      is: 'ud-app',
+      static get is() {
+        return 'ud-app';
+      }
 
-      properties: {
+      static get properties() {
+        return {
+          page: {
+            type: String,
+            reflectToAttribute: true,
+            observer: '_pageChanged'
+          },
 
-        page: {
-          type: String,
-          reflectToAttribute: true,
-          observer: '_pageChanged'
-        },
+          numItems: {
+            type: Number,
+            value: 0
+          },
 
-        numItems: {
-          type: Number,
-          value: 0
-        },
+          _shouldShowTabs: {
+            computed: '_computeShouldShowTabs(page, smallScreen)'
+          },
 
-        _shouldShowTabs: {
-          computed: '_computeShouldShowTabs(page, smallScreen)'
-        },
+          _shouldRenderTabs: {
+            computed: '_computeShouldRenderTabs(_shouldShowTabs, loadComplete)'
+          },
 
-        _shouldRenderTabs: {
-          computed: '_computeShouldRenderTabs(_shouldShowTabs, loadComplete)'
-        },
-
-        _shouldRenderDrawer: {
-          computed: '_computeShouldRenderDrawer(smallScreen, loadComplete)'
+          _shouldRenderDrawer: {
+            computed: '_computeShouldRenderDrawer(smallScreen, loadComplete)'
+          }
         }
-      },
+      }
 
-      observers: [
-        '_routePageChanged(routeData.page)'
-      ],
+      static get observers() {
+        return [
+          '_routePageChanged(routeData.page)'
+        ]
+      }
 
-      listeners: {
-        'add-cart-item': '_onAddCartItem',
-        'set-cart-item': '_onSetCartItem',
-        'clear-cart': '_onClearCart',
-        'change-section': '_onChangeSection',
-        'announce': '_onAnnounce',
-        'dom-change': '_domChange',
-        'show-invalid-url-warning': '_onFallbackSelectionTriggered'
-      },
-
-      created: function () {
+      constructor() {
+        super();
         window.performance && performance.mark && performance.mark('ud-app.created');
+      }
+
+      ready() {
+        super.ready();
         // Custom elements polyfill safe way to indicate an element has been upgraded.
         this.removeAttribute('unresolved');
-      },
-
-      ready: function () {
+        // listen for custom events
+        this.addEventListener('add-cart-item', (e) => this._onAddCartItem(e));
+        this.addEventListener('set-cart-item', (e) => this._onSetCartItem(e));
+        this.addEventListener('clear-cart', (e) => this._onClearCart(e));
+        this.addEventListener('change-section', (e) => this._onChangeSection(e));
+        this.addEventListener('announce', (e) => this._onAnnounce(e));
+        this.addEventListener('dom-change', (e) => this._domChange(e));
+        this.addEventListener('show-invalid-url-warning', (e) => this._onFallbackSelectionTriggered(e));
         // listen for online/offline
-        Polymer.RenderStatus.afterNextRender(this, function () {
-          this.listen(window, 'online', '_notifyNetworkStatus');
-          this.listen(window, 'offline', '_notifyNetworkStatus');
+        Polymer.RenderStatus.afterNextRender(this, () => {
+          window.addEventListener('online', (e) => this._notifyNetworkStatus(e));
+          window.addEventListener('offline', (e) => this._notifyNetworkStatus(e));
         });
-      },
+      }
 
-      _routePageChanged: function (page) {
+      _routePageChanged(page) {
         if (this.page === 'list') {
           this._listScrollTop = window.pageYOffset;
         }
@@ -384,9 +367,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         // Close the drawer - in case the *route* change came from a link in the drawer.
         this.drawerOpened = false;
-      },
+      }
 
-      _pageChanged: function (page, oldPage) {
+      _pageChanged(page, oldPage) {
         if (page != null) {
           // home route is eagerly loaded
           if (page == 'home') {
@@ -395,30 +378,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           } else {
             // When a load failed, it triggered a 404 which means we need to
             // eagerly load the 404 page definition
-            var cb = this._pageLoaded.bind(this, Boolean(oldPage));
-            this.importHref(
+            let cb = this._pageLoaded.bind(this, Boolean(oldPage));
+            Polymer.importHref(
               this.resolveUrl('ud-' + page + '.html'),
               cb, cb, true);
           }
         }
-      },
+      }
 
-      _pageLoaded: function (shouldResetLayout) {
+      _pageLoaded(shouldResetLayout) {
         this._ensureLazyLoaded();
         if (shouldResetLayout) {
           // The size of the header depends on the page (e.g. on some pages the tabs
           // do not appear), so reset the header's layout only when switching pages.
-          this.async(function () {
+          Polymer.Async.timeOut.run(() => {
             this.$.header.resetLayout();
           }, 1);
         }
-      },
+      }
 
-      _ensureLazyLoaded: function () {
+      _ensureLazyLoaded() {
         // load lazy resources after render and set `loadComplete` when done.
         if (!this.loadComplete) {
-          Polymer.RenderStatus.afterNextRender(this, function () {
-            this.importHref(this.resolveUrl('lazy-resources.html'), function () {
+          Polymer.RenderStatus.afterNextRender(this, () => {
+            Polymer.importHref(this.resolveUrl('lazy-resources.html'), () => {
               // Register service worker if supported.
               if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('/service-worker.js');
@@ -428,38 +411,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             });
           });
         }
-      },
+      }
 
-      _notifyNetworkStatus: function () {
-        var oldOffline = this.offline;
+      _notifyNetworkStatus() {
+        let oldOffline = this.offline;
         this.offline = !navigator.onLine;
         // Show the snackbar if the user is offline when starting a new session
         // or if the network status changed.
         if (this.offline || (!this.offline && oldOffline === true)) {
           if (!this._networkSnackbar) {
-            this._networkSnackbar = document.createElement('ud-snackbar');
-            Polymer.dom(this.root).appendChild(this._networkSnackbar);
+            this._networkSnackbar = document.createElement('shop-snackbar');
+            this.root.appendChild(this._networkSnackbar);
           }
-          Polymer.dom(this._networkSnackbar).innerHTML = this.offline ?
+          this._networkSnackbar.innerHTML = this.offline ?
             'You are offline' : 'You are online';
           this._networkSnackbar.open();
         }
-      },
+      }
 
-      _toggleDrawer: function () {
+      _toggleDrawer() {
         this.drawerOpened = !this.drawerOpened;
-      },
+      }
 
       // Elements in the app can notify section changes.
       // Response by a11y announcing the section and syncronizing the category.
-      _onChangeSection: function (event) {
-        var detail = event.detail;
+      _onChangeSection(event) {
+        let detail = event.detail;
 
         // Scroll to the top of the page when navigating to a non-list page. For list view,
         // scroll to the last saved position only if the category has not changed.
-        var scrollTop = 0;
-        if (this.page === 'list' && this.categoryName === detail.category) {
-          scrollTop = this._listScrollTop;
+        let scrollTop = 0;
+        if (this.page === 'list') {
+          if (this.categoryName === detail.category) {
+            scrollTop = this._listScrollTop;
+          } else {
+            // Reset the list view scrollTop if the category changed.
+            this._listScrollTop = 0;
+          }
         }
         // Use `Polymer.AppLayout.scroll` with `behavior: 'silent'` to disable header scroll
         // effects during the scroll.
@@ -475,78 +463,82 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           document.title = detail.title + ' - UNLEASHED';
           this._announce(detail.title + ', loaded');
         }
-      },
+      }
 
-      _onAddCartItem: function (event) {
+      _onAddCartItem(event) {
         if (!this._cartModal) {
-          this._cartModal = document.createElement('ud-cart-modal');
-          Polymer.dom(this.root).appendChild(this._cartModal);
+          this._cartModal = document.createElement('shop-cart-modal');
+          this.root.appendChild(this._cartModal);
         }
         this.$.cart.addItem(event.detail);
         this._cartModal.open();
         this._announce('Item added to the cart');
-      },
+      }
 
-      _onSetCartItem: function (event) {
-        var detail = event.detail;
+      _onSetCartItem(event) {
+        let detail = event.detail;
         this.$.cart.setItem(detail);
         if (detail.quantity === 0) {
           this._announce('Item deleted');
         } else {
           this._announce('Quantity changed to ' + detail.quantity);
         }
-      },
+      }
 
-      _onClearCart: function () {
+      _onClearCart() {
         this.$.cart.clearCart();
         this._announce('Cart cleared');
-      },
+      }
 
       // Elements in the app can notify a change to be a11y announced.
-      _onAnnounce: function (e) {
+      _onAnnounce(e) {
         this._announce(e.detail);
-      },
+      }
 
       // A11y announce the given message.
-      _announce: function (message) {
+      _announce(message) {
         this._a11yLabel = '';
-        this.debounce('_a11yAnnouncer', function () {
-          this._a11yLabel = message;
-        }, 100);
-      },
+        this._announceDebouncer = Polymer.Debouncer.debounce(this._announceDebouncer,
+          Polymer.Async.timeOut.after(100), () => {
+            this._a11yLabel = message;
+          });
+      }
 
       // This is for performance logging only.
-      _domChange: function (e) {
+      _domChange(e) {
         if (window.performance && performance.mark && !this.__loggedDomChange) {
-          var target = Polymer.dom(e).rootTarget;
-          if (target.domHost.is.match(this.page)) {
+          let target = e.composedPath()[0];
+          let host = target.getRootNode().host;
+          if (host && host.localName.match(this.page)) {
             this.__loggedDomChange = true;
-            performance.mark(target.domHost.is + '.domChange');
+            performance.mark(host.localName + '.domChange');
           }
         }
-      },
+      }
 
-      _onFallbackSelectionTriggered: function () {
+      _onFallbackSelectionTriggered() {
         this.page = '404';
-      },
+      }
 
-      _computeShouldShowTabs: function (page, smallScreen) {
-        return (page === 'home' || page === 'list' || page === 'detail') && !smallScreen;
-      },
+      _computeShouldShowTabs(page, smallScreen) {
+        return (['home', 'web', 'apps', 'marketing', 'contact'].indexOf(page) > -1) && !smallScreen;
+      }
 
-      _computeShouldRenderTabs: function (_shouldShowTabs, loadComplete) {
+      _computeShouldRenderTabs(_shouldShowTabs, loadComplete) {
         return _shouldShowTabs && loadComplete;
-      },
+      }
 
-      _computeShouldRenderDrawer: function (smallScreen, loadComplete) {
+      _computeShouldRenderDrawer(smallScreen, loadComplete) {
         return smallScreen && loadComplete;
-      },
+      }
 
-      _computePluralizedQuantity: function (quantity) {
+      _computePluralizedQuantity(quantity) {
         return quantity + ' ' + (quantity === 1 ? 'item' : 'items');
       }
 
-    });
+    }
+
+    customElements.define(UDApp.is, UDApp);
   </script>
 
 </dom-module>

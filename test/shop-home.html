@@ -10,44 +10,54 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <title>shop-home</title>
+  <title>ud-home</title>
 
   <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../bower_components/web-component-tester/browser.js"></script>
 
   <!-- Import the element to test -->
-  <link rel="import" href="../src/shop-home.html">
+  <link rel="import" href="../src/ud-home.html">
 
 </head>
+
 <body>
 
   <test-fixture id="basic">
     <template>
-       <shop-home></shop-home>
+      <ud-home></ud-home>
     </template>
   </test-fixture>
 
   <script>
-    suite('shop-home tests', function() {
+    suite('ud-home tests', function () {
       var home;
 
-      setup(function() {
+      setup(function () {
         home = fixture('basic');
       });
 
-      test('Item lengths should be equalled', function(done) {
+      test('Item lengths should be equalled', function (done) {
         // Test categories property
-        home.categories = [
-          {name: 'furniture', title: 'Furniture'},
-          {name: 'food', title: 'Food'},
-          {name: 'fashion', title: 'Fashion'}
+        home.categories = [{
+            name: 'furniture',
+            title: 'Furniture'
+          },
+          {
+            name: 'food',
+            title: 'Food'
+          },
+          {
+            name: 'fashion',
+            title: 'Fashion'
+          }
         ];
 
         // Data bindings will stamp out new DOM asynchronously
         // so wait to check for updates
-        flush(function() {
+        flush(function () {
           var items = Polymer.dom(home.root).querySelectorAll('.item');
           assert.equal(home.categories.length, items.length);
           done();
@@ -57,4 +67,5 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </script>
 
 </body>
+
 </html>

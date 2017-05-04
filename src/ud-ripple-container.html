@@ -1,14 +1,4 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-behaviors/paper-ripple-behavior.html">
 
 <dom-module id="ud-ripple-container">
@@ -23,47 +13,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: var(--app-accent-color);
       }
     </style>
-    <content></content>
+    <slot></slot>
   </template>
   <script>
-    Polymer({
-      is: 'ud-ripple-container',
+    class UDRippleContainer extends Polymer.mixinBehaviors(
+      [Polymer.PaperRippleBehavior], Polymer.Element) {
 
-      behaviors: [
-        Polymer.PaperRippleBehavior
-      ],
+      static get is() {
+        return 'ud-ripple-container';
+      }
 
-      listeners: {
-        'down': '_rippleDown',
-        'up': '_rippleUp',
-      },
-
-      created: function () {
-        this.addEventListener('focus', this._onFocus.bind(this), true);
-        this.addEventListener('blur', this._onBlur.bind(this), true);
+      constructor() {
+        super();
         this._isDown = false;
-      },
+      }
 
-      _onFocus: function (event) {
+      ready() {
+        super.ready();
+        this.addEventListener('focus', (e) => this._onFocus(e), true);
+        this.addEventListener('blur', (e) => this._onBlur(e), true);
+        this.addEventListener('down', (e) => this._rippleDown(e));
+        this.addEventListener('up', (e) => this._rippleUp(e));
+      }
+
+      _onFocus(event) {
         // Prevent second ripple when clicking causes both focus and down.
         if (!this._isDown) {
           this._rippleDown(event);
         }
-      },
+      }
 
-      _onBlur: function (event) {
+      _onBlur(event) {
         this._rippleUp(event);
-      },
+      }
 
-      _rippleDown: function (event) {
+      _rippleDown(event) {
         this._isDown = true;
         this.getRipple().downAction(event);
-      },
+      }
 
-      _rippleUp: function (event) {
+      _rippleUp(event) {
         this._isDown = false;
         this.getRipple().upAction(event);
-      },
-    });
+      }
+
+    }
+
+    customElements.define(UDRippleContainer.is, UDRippleContainer);
   </script>
 </dom-module>
